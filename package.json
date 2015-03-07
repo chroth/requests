@@ -1,0 +1,35 @@
+{
+  "name": "requests",
+  "description": "Friendlier requests",
+  "main": "lib/requests.js",
+  "author": "Christofer Roth",
+  "version": "0.0.1",
+  "keywords": [
+    "requests",
+    "ajax",
+    "async",
+    "utility",
+    "module"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chroth/requests.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chroth/requests/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/chroth/requests/raw/master/LICENSE"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "nodelint": "^0.6.2",
+    "should": "^5.1.0",
+    "testem": "^0.7.1",
+    "uglify-js": "^2.4.16"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/testem"
+  }
+}
