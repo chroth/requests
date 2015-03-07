@@ -1,4 +1,4 @@
-PACKAGE = asyncjs
+PACKAGE = requests
 NODEJS = $(if $(shell test -f /usr/bin/nodejs && echo "true"),nodejs,node)
 CWD := $(shell pwd)
 MOCHA = $(CWD)/node_modules/mocha/bin/mocha
