@@ -28,6 +28,19 @@ describe('requests', function(){
         done();
       });
     });
+
+    it('should run complete even after completed', function(done){
+      var request = requests.get('sample/sample.json');
+      var completes = 0;
+      request.complete(function() {
+        completes++;
+        request.complete(function() {
+          completes.should.be.exactly(1);
+          done();
+        });
+      });
+    });
+
   });
 
   describe('#post()', function(){
