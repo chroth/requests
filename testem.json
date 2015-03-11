@@ -2,6 +2,7 @@
   "framework": "mocha",
   "src_files": [
     "node_modules/should/should.min.js",
+    "node_modules/sinon/pkg/sinon.js",
     "lib/*",
     "test/setup.js",
     "test/*.test.js"
