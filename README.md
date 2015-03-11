@@ -5,13 +5,19 @@ Readable requests for the browser.
 ## Example usage
 
     // Get
-    var request = requests.get('/search', requests.params({'q': 'requests'}))
-        .complete(function() {
-            console.log(this.response);
+    var request = requests
+        .get('sample/sample.json')
+        .params({'x': 10, 'y': 20})
+        .exec()
+        .then(function(){
+          console.log(this.response);
         });
 
-    // Post
-    var request = requests.post('/search', requests.params({'q': 'requests'}))
-        .complete(function() {
-            console.log(this.response);
+    // Post etc
+    var request = requests
+        .post('sample/sample.json')
+        .params({'x': 10, 'y': 20})
+        .exec()
+        .then(function(){
+          console.log(this.response);
         });

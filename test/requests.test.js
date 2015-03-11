@@ -2,42 +2,46 @@ describe('requests', function(){
 
   describe('#get()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.get('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
+      requests
+        .get('sample/sample.json')
+        .exec()
+        .then(function(){
+          this.response.status_code.should.be.greaterThan(-1);
+          done();
+        });
     });
 
-    it('should generate full url with query string', function(done){
-      var request = requests.get('sample/sample.json', requests.params({"x": 10, "y": 20}));
-      request.url.should.equal("sample/sample.json");
+    it('should generate query string', function(done){
+      var request = requests
+        .get('sample/sample.json')
+        .params({"x": 10, "y": 20});
+
       request.params.query("?").should.equal("?x=10&y=20");
       done();
     });
 
-    it('should run all complete functions in the right order', function(done){
-      var request = requests.get('sample/sample.json');
+    it('should run all then functions in the right order', function(done){
+      var request = requests.get('sample/sample.json').exec();
+
       var completes = 0;
-      request.complete(function(){
+      request.then(function(){
+        completes.should.be.exactly(0);
         completes++;
-      }).complete(function(){
+      }).then(function(){
+        completes.should.be.exactly(1);
         completes++;
-      }).complete(function() {
+      }).then(function() {
         completes.should.be.exactly(2);
         done();
       });
     });
 
     it('should run complete even after completed', function(done){
-      var request = requests.get('sample/sample.json');
+      var request = requests.get('sample/sample.json').exec();
       var completes = 0;
-      request.complete(function() {
-        completes++;
-        request.complete(function() {
-          completes.should.be.exactly(1);
-          done();
-        });
+      request.then(function() {
+        this.response.should.be.an.Object;
+        done();
       });
     });
 
@@ -45,64 +49,61 @@ describe('requests', function(){
 
   describe('#post()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.post('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
+      requests
+          .post('sample/sample.json')
+          .exec()
+          .then(function(){
+            this.response.status_code.should.be.greaterThan(-1);
+            done();
+          });
     });
   });
 
   describe('#put()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.put('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
+      requests
+          .put('sample/sample.json')
+          .exec()
+          .then(function(){
+            this.response.status_code.should.be.greaterThan(-1);
+            done();
+          });
     });
   });
 
   describe('#delete()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.delete('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
+      requests
+          .delete('sample/sample.json')
+          .exec()
+          .then(function(){
+            this.response.status_code.should.be.greaterThan(-1);
+            done();
+          });
     });
   });
 
   describe('#head()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.head('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
+      requests
+          .head('sample/sample.json')
+          .exec()
+          .then(function(){
+            this.response.status_code.should.be.greaterThan(-1);
+            done();
+          });
     });
   });
+
   describe('#options()', function(){
     it('should complete with a status code', function(done){
-      var request = requests.options('sample/sample.json');
-      request.complete(function(){
-        this.response.status_code.should.be.greaterThan(-1);
-        done();
-      });
-    });
-  });
-
-  describe('#params()', function(){
-    it('should return a Params object', function(){
-      var params = requests.params({'x': 10, 'y': 20});
-      params.should.be.a.Object;
-    });
-  });
-
-  describe('#headers()', function(){
-    it('should return a Headers', function(){
-      var params = requests.headers();
-      params.should.be.a.Object;
+      requests
+          .options('sample/sample.json')
+          .exec()
+          .then(function(){
+            this.response.status_code.should.be.greaterThan(-1);
+            done();
+          });
     });
   });
 
