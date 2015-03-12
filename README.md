@@ -10,7 +10,7 @@ Readable requests for the browser.
         .params({'x': 10, 'y': 20})
         .exec()
         .then(function(){
-          console.log(this.status_code);
+          console.log(this.status);
           console.log(this.text);
           console.log(this.json());
         });
@@ -21,5 +21,5 @@ Readable requests for the browser.
         .params({'x': 10, 'y': 20})
         .exec()
         .then(function(){
-          console.log(this.status_code);
+          console.log(this.status);
         });
