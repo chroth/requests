@@ -11,54 +11,19 @@ describe('requests', function(){
 
   describe('#get()', function(){
     it('should complete with a status code', function(done){
-      server.respondWith("GET", "/resource.json",
+      server.respondWith("GET", "/resource",
             [200, { "Content-Type": "application/json" },
              '[{ "id": 12, "comment": "Hey there" }]']);
       server.autoRespond = true;
 
       requests
-        .get('/resource.json')
+        .get('/resource')
         .exec()
         .then(function(){
-          this.response.status_code.should.be.exactly(200);
+          this.status.should.be.exactly(200);
           done();
         });
     });
-
-    it('should generate query string', function(done){
-      var request = requests
-        .get('/resource')
-        .params({"x": 10, "y": 20});
-
-      request.params.query("?").should.equal("?x=10&y=20");
-      done();
-    });
-
-    it('should run all then functions in the right order', function(done){
-      var request = requests.get('/resource').exec();
-
-      var completes = 0;
-      request.then(function(){
-        completes.should.be.exactly(0);
-        completes++;
-      }).then(function(){
-        completes.should.be.exactly(1);
-        completes++;
-      }).then(function() {
-        completes.should.be.exactly(2);
-        done();
-      });
-    });
-
-    it('should run complete even after completed', function(done){
-      var request = requests.get('/resource').exec();
-      var completes = 0;
-      request.then(function() {
-        this.response.should.be.an.Object;
-        done();
-      });
-    });
-
   });
 
   describe('#post()', function(){
@@ -72,7 +37,7 @@ describe('requests', function(){
           .post('/resource')
           .exec()
           .then(function(){
-            this.response.status_code.should.be.exactly(200);
+            this.status.should.be.exactly(200);
             done();
           });
     });
@@ -89,7 +54,7 @@ describe('requests', function(){
           .put('/resource')
           .exec()
           .then(function(){
-            this.response.status_code.should.be.exactly(200);
+            this.status.should.be.exactly(200);
             done();
           });
     });
@@ -106,8 +71,8 @@ describe('requests', function(){
           .delete('/resource')
           .exec()
           .then(function(){
-            this.response.status_code.should.be.exactly(200);
-            this.response.text.should.be.eql('[{ "id": 12, "comment": "Hey there" }]');
+            this.status.should.be.exactly(200);
+            this.text.should.be.eql('[{ "id": 12, "comment": "Hey there" }]');
             done();
           });
     });
@@ -124,7 +89,7 @@ describe('requests', function(){
           .head('/resource')
           .exec()
           .then(function(){
-            this.response.status_code.should.be.exactly(200);
+            this.status.should.be.exactly(200);
             done();
           });
     });
@@ -141,7 +106,7 @@ describe('requests', function(){
           .options('/resource')
           .exec()
           .then(function(){
-            this.response.status_code.should.be.exactly(200);
+            this.status.should.be.exactly(200);
             done();
           });
     });

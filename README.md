@@ -10,7 +10,9 @@ Readable requests for the browser.
         .params({'x': 10, 'y': 20})
         .exec()
         .then(function(){
-          console.log(this.response);
+          console.log(this.status_code);
+          console.log(this.text);
+          console.log(this.json());
         });
 
     // Post etc
@@ -19,5 +21,5 @@ Readable requests for the browser.
         .params({'x': 10, 'y': 20})
         .exec()
         .then(function(){
-          console.log(this.response);
+          console.log(this.status_code);
         });
