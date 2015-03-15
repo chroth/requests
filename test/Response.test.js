@@ -107,6 +107,24 @@ describe('Response', function(){
           });
     });
 
+    it('should return a full headers object', function(done){
+      server.respondWith("GET", "/resource",
+            [200, { "Transfer-Encoding": "chunked",
+            "Date": "Sat, 28 Nov 2009 04:36:25 GMT",
+            "Server": "LiteSpeed",
+            "Vary": "Accept-Encoding, Cookie, User-Agent" },
+             'Hello, header world!']);
+      server.autoRespond = true;
+
+      var request = requests
+          .get('/resource')
+          .exec()
+          .then(function(){
+            this.headers().should.eql({ "Transfer-Encoding": "chunked", "Date": "Sat, 28 Nov 2009 04:36:25 GMT", "Server": "LiteSpeed", "Vary": "Accept-Encoding, Cookie, User-Agent" });
+            done();
+          });
+    });
+
   });
 
 });
