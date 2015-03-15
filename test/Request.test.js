@@ -11,6 +11,29 @@ describe('Request', function(){
 
   describe('Headers', function() {
 
+    describe('#headers()', function() {
+
+      it('should generate query string', function(done){
+        var request = requests.get('/resource');
+
+        request.headers({
+          'Accept': 'text/plain',
+          'Content-Length': 1234,
+        });
+        request.headers.get('Accept').should.eql('text/plain');
+        request.headers.get('Content-Length').should.eql(1234);
+
+        request.headers.add('Accept', 'text/html');
+        request.headers.get('Accept').should.eql('text/html');
+
+        request.headers.add('Accept-Encoding', 'gzip');
+        Object.keys(request.headers.all()).length.should.be.exactly(3);
+
+        done();
+      });
+
+    });
+
   });
 
   describe('Params', function(){
@@ -18,11 +41,6 @@ describe('Request', function(){
     describe('#query()', function(){
 
       it('should generate query string', function(done){
-        server.respondWith("GET", "/resource.json",
-              [200, { "Content-Type": "application/json" },
-               '[{ "id": 12, "comment": "Hey there" }]']);
-        server.autoRespond = true;
-
         var request = requests.get('/resource');
 
         request.params({"x": 10, "y": 20});
@@ -33,6 +51,26 @@ describe('Request', function(){
 
         request.params({"a": 100});
         request.params.query("?").should.equal("?a=100");
+
+        request.params({"a&bc": 100});
+        request.params.query("?").should.equal("?a%26bc=100");
+
+        done();
+      });
+
+      it('should generate an encoded query string', function(done){
+        server.respondWith("GET", "/resource.json",
+              [200, { "Content-Type": "application/json" },
+               '[{ "id": 12, "comment": "Hey there" }]']);
+        server.autoRespond = true;
+
+        var request = requests.get('/resource');
+
+        request.params({"a&bc": "y/x"});
+        request.params.query("?").should.equal("?a%26bc=y%2Fx");
+
+        request.params({"kött": "är mord"});
+        request.params.query("?").should.equal("?k%C3%B6tt=%C3%A4r%20mord");
 
         done();
       });
