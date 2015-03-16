@@ -9,6 +9,22 @@ describe('requests', function(){
     server.restore();
   });
 
+  describe('.codes', function(){
+    it('should show status code', function(done){
+      server.respondWith("GET", "/resource",
+            [200, { "Content-Type": "application/json" },
+             '[{ "id": 12, "comment": "Hey there" }]']);
+      server.autoRespond = true;
+
+      requests.codes.ok.should.be.exactly(200);
+      requests.codes.not_found.should.be.exactly(404);
+      requests.codes.internal_server_error.should.be.exactly(500);
+      requests.codes.not_implemented.should.be.exactly(501);
+
+      done();
+    });
+  });
+
   describe('#get()', function(){
     it('should complete with a status code', function(done){
       server.respondWith("GET", "/resource",

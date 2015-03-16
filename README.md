@@ -11,6 +11,9 @@ Readable requests for the browser.
         .headers({'Accept-Encoding': 'gzip', 'Accept': 'text/html'})
         .exec()
         .then(function(){
+          if (this.status === requests.codes.ok) {
+            console.log("OK");
+          }
           console.log(this.status);
           console.log(this.text);
           console.log(this.headers());
